@@ -3,3 +3,5 @@ __pycache__/
 /packed.exe
 /samase.exe
 /sezam.log
+build/
+dist/

@@ -1,4 +1,5 @@
 #python3.12 window.py
+#pyinstaller --onefile window.py
 import PySimpleGUI as gui
 import logging
 from time import sleep
@@ -26,7 +27,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', filename=L
 logging.FileHandler(LOGFILE, mode = "w")
 
 #window layout
-layout = [[gui.Button("Select build directory"), gui.Text("Please select a path", key="curPath"), gui.Push(), gui.Checkbox("Run in x64")],
+layout = [[gui.Button("Select build directory"), gui.Text("Please select a path", key="curPath"), gui.Push(), gui.Checkbox("Run in x64", key="x64")],
           [gui.Button("Launch"), gui.Button("Build From")],
           [gui.Push()],
           [gui.Button("Select Executable to Unpack"), gui.Text("No exe selected", key="curExe"), gui.Push(), gui.Button("Unpack from")]
@@ -57,17 +58,20 @@ while True:
         if not exists_localSamase(locals()):
             continue
         localSamase.operation_type = 0
+        localSamase.is64 = values["x64"]
         localSamase.operate()
     if event == "Build From":
         if not exists_localSamase(locals()):
             continue
         localSamase.operation_type = 1
+        localSamase.is64 = values["x64"]
         localSamase.operate()
     if event == "Unpack from":
         if not exists_unpackSamase(locals()):
             continue
         assert unpackSamase.folder.endswith(".exe"), f"Expected executable to unpack, instead got {localSamase.folder}"
         unpackSamase.operation_type = 2
+        localSamase.is64 = values["x64"]
         unpackSamase.operate()
 
     
