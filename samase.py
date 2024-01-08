@@ -1,24 +1,21 @@
 import os
+import subprocess
 
 SAMASE = "samase.exe"
 SAMASE64 = "samase64.exe"
 
-def add_space(string_list) -> str:
-    print(" ".join(string_list))
-    return " ".join(string_list)
-
-def construct_samase_string(operation_type:int, path:str, is64: bool = False):
+def samase_line_constructor(operation_type:int, path:str, is64: bool = False):
     local_samase = SAMASE if not is64 else SAMASE64
     match operation_type:
         case 0:
-            return add_space([local_samase, path])
+            return [local_samase, path]
         case 1:
-            return add_space([local_samase, path, "--pack", os.getcwd()+"\\packed.exe"])
+            return [local_samase, path, "--pack", os.getcwd()+"\\packed.exe"]
         case 2:
             os.chdir("target")
             t_dir = os.getcwd()
             os.chdir("..")
-            return add_space([local_samase, t_dir, "--unpack", path])
+            return [local_samase, t_dir, "--unpack", path]
         
 class Samase:
     OP_TYPES = {
@@ -32,5 +29,5 @@ class Samase:
         self.is64 = is64
 
     def operate(self):
-        print(f"Samase string debug: {construct_samase_string(self.operation_type, self.folder, self.is64)}")
-        os.system(construct_samase_string(self.operation_type, self.folder, self.is64))
+        print(f"Samase string debug: {samase_line_constructor(self.operation_type, self.folder, self.is64)}")
+        subprocess.run(samase_line_constructor(self.operation_type, self.folder, self.is64))

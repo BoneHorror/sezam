@@ -1,7 +1,7 @@
 target/
 __pycache__/
 /packed.exe
-/samase.exe
 /sezam.log
+/sezam.zip
 build/
 dist/
