@@ -1,8 +1,8 @@
 #python3.12 window.py
 #pyinstaller --onefile window.py
+#pyinstaller window.spec
 import PySimpleGUI as gui
 import logging
-from time import sleep
 from samase import Samase
 import os
 
@@ -28,9 +28,10 @@ logging.FileHandler(LOGFILE, mode = "w")
 
 #window layout
 layout = [[gui.Button("Select build directory"), gui.Text("Please select a path", key="curPath"), gui.Push(), gui.Checkbox("Run in x64", key="x64")],
-          [gui.Button("Launch"), gui.Button("Build From")],
+          [gui.Push(), gui.Button("Launch"), gui.Button("Build From"), gui.Push()],
           [gui.Push()],
-          [gui.Button("Select Executable to Unpack"), gui.Text("No exe selected", key="curExe"), gui.Push(), gui.Button("Unpack from")]
+          [gui.Button("Select .exe to Unpack"), gui.Text("No exe selected", key="curExe")],
+          [gui.Push(), gui.Button("Unpack from"), gui.Push()]
 ]
 
 window = gui.Window("Sezam", layout, resizable=True)
