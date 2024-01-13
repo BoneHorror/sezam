@@ -7,7 +7,7 @@ def internal_run(args: list, is64: bool):
 
     path = [SAMASE if not is64 else SAMASE64, *args]
     print(f"Samase string debug: {path}")
-    subprocess.run([path, *args])
+    subprocess.run(path)
 
 def run(path: str, is64: bool):
     internal_run([path], is64)
