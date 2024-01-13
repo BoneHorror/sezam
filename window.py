@@ -10,7 +10,7 @@ import os
 LOGFILE = "sezam.log"
 
 def assert_path(path: str, message: str = "Attempted to perform an operation without a directory selected!") -> bool:
-    if path == "":
+    if path is None or path == "":
         print(message)
         return False
     return True
