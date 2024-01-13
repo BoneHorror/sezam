@@ -5,3 +5,5 @@ __pycache__/
 /sezam.zip
 build/
 dist/
+/aice.log
+/aise.log
