@@ -1,8 +1,8 @@
 import os
 import subprocess
 
-SAMASE = "samase.exe"
-SAMASE64 = "samase64.exe"
+SAMASE = "bin\\samase.exe"
+SAMASE64 = "bin\\samase64.exe"
 
 def samase_line_constructor(operation_type:int, path:str, is64: bool = False):
     local_samase = SAMASE if not is64 else SAMASE64
