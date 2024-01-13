@@ -10,7 +10,7 @@ import os
 LOGFILE = "sezam.log"
 
 def assert_path(path: str, message: str = "Attempted to perform an operation without a directory selected!") -> bool:
-    if path is None or path == "":
+    if path == "" or path is None:
         print(message)
         return False
     return True
@@ -41,7 +41,7 @@ class Window():
                 clean_dir = directory[(directory.rfind("/")+1):] # TODO: use appropriate function from os.path
                 self.window["curPath"].update(value=clean_dir)
                 self.local_samase = directory
-            if event == "Select Executable to Unpack":
+            if event == "Select .exe to Unpack":
                 directory = gui.popup_get_file('Select path', initial_folder=os.getcwd(), file_types=(("Executable files", "*.exe"),))
                 if not assert_path(directory, "Nothing selected"):
                     continue
