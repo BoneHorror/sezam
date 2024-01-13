@@ -1,18 +1,20 @@
-#python3.12 window.py
-#pyinstaller --onefile window.py
-#pyinstaller window.spec
+# TODO: turn into run.bat and build.bat (or .sh for linux?)
+# python3.12 window.py
+# pyinstaller --onefile window.py
+# pyinstaller window.spec
 import PySimpleGUI as gui
 import logging
-from samase import Samase, OpType
+import samase
 import os
 
 LOGFILE = "sezam.log"
 
-localSamase = None
-unpackSamase = None
+# TODO: supply intelligent defaults
+local_samase = ""
+unpack_samase = ""
 
-def assertSet(value: any) -> bool:
-    if value is None:
+def pathSet(value: str) -> bool:
+    if value == "":
         print("Attempted to perform an operation without a directory selected!")
         return False
     return True
@@ -39,9 +41,9 @@ while True:
         if directory == "":
             print("Nothing selected")
             continue
-        clean_dir = directory[(directory.rfind("/")+1):]
+        clean_dir = directory[(directory.rfind("/")+1):] # TODO: use appropriate function from os.path
         window["curPath"].update(value=clean_dir)
-        localSamase = Samase(directory, None)
+        local_samase = directory
     if event == "Select Executable to Unpack":
         directory = gui.popup_get_file('Select path', initial_folder=os.getcwd(), file_types=(("Executable files", "*.exe"),))
         if directory == "":
@@ -49,25 +51,20 @@ while True:
             continue
         clean_dir = directory[(directory.rfind("/")+1):]
         window["curExe"].update(value=clean_dir)
-        unpackSamase = Samase(directory, None)
+        unpack_samase = directory
     if event == "Launch":
-        if not assertSet(localSamase):
+        if not pathSet(local_samase):
             continue
-        localSamase.operation_type = OpType.Run
-        localSamase.is64 = values["x64"]
-        localSamase.operate()
+        samase.run(local_samase, values["x64"])
     if event == "Build From":
-        if not assertSet(localSamase):
+        if not pathSet(local_samase):
             continue
-        localSamase.operation_type = OpType.Build
-        localSamase.is64 = values["x64"]
-        localSamase.operate()
+        samase.build(local_samase, values["x64"])
     if event == "Unpack from":
-        if not assertSet(unpackSamase):
+        if not pathSet(unpack_samase):
             continue
-        assert unpackSamase.folder.endswith(".exe"), f"Expected executable to unpack, instead got {localSamase.folder}"
-        unpackSamase.operation_type = OpType.Unpack
-        localSamase.is64 = values["x64"]
-        unpackSamase.operate()
+        # on assumption that the user must select .exe file in the popup
+        assert unpack_samase.endswith(".exe"), f"Expected executable to unpack, instead got {local_samase}"
+        samase.build(unpack_samase, values["x64"])
 
     
