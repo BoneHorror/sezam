@@ -9,7 +9,7 @@ import os
 
 LOGFILE = "sezam.log"
 
-def assert_path(path: str, message: str = "Attempted to perform an operation without a directory selected!") -> bool:
+def assert_path(path: str | None, message: str = "Attempted to perform an operation without a directory selected!") -> bool:
     if path == "" or path is None:
         print(message)
         return False
@@ -35,14 +35,14 @@ class Window():
             if event == gui.WIN_CLOSED:
                 break
             if event == "Select build directory":
-                directory = gui.popup_get_folder('Select path', initial_folder=os.getcwd())
+                directory: str | None = gui.popup_get_folder('Select path', initial_folder=os.getcwd())
                 if not assert_path(directory, "Nothing selected"):
                     continue
                 clean_dir = directory[(directory.rfind("/")+1):] # TODO: use appropriate function from os.path
                 self.window["curPath"].update(value=clean_dir)
                 self.local_samase = directory
             if event == "Select .exe to Unpack":
-                directory = gui.popup_get_file('Select path', initial_folder=os.getcwd(), file_types=(("Executable files", "*.exe"),))
+                directory: str | None = gui.popup_get_file('Select path', initial_folder=os.getcwd(), file_types=(("Executable files", "*.exe"),))
                 if not assert_path(directory, "Nothing selected"):
                     continue
                 clean_dir = directory[(directory.rfind("/")+1):]
