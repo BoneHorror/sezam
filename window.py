@@ -9,9 +9,9 @@ import os
 
 LOGFILE = "sezam.log"
 
-def pathSet(value: str) -> bool:
-    if value == "":
-        print("Attempted to perform an operation without a directory selected!")
+def assert_path(path: str, message: str = "Attempted to perform an operation without a directory selected!") -> bool:
+    if path == "":
+        print(message)
         return False
     return True
 
@@ -36,30 +36,28 @@ class Window():
                 break
             if event == "Select build directory":
                 directory = gui.popup_get_folder('Select path', initial_folder=os.getcwd())
-                if directory == "":
-                    print("Nothing selected")
+                if not assert_path(directory, "Nothing selected"):
                     continue
                 clean_dir = directory[(directory.rfind("/")+1):] # TODO: use appropriate function from os.path
                 self.window["curPath"].update(value=clean_dir)
                 self.local_samase = directory
             if event == "Select Executable to Unpack":
                 directory = gui.popup_get_file('Select path', initial_folder=os.getcwd(), file_types=(("Executable files", "*.exe"),))
-                if directory == "":
-                    print("Nothing selected")
+                if not assert_path(directory, "Nothing selected"):
                     continue
                 clean_dir = directory[(directory.rfind("/")+1):]
                 self.window["curExe"].update(value=clean_dir)
                 self.unpack_samase = directory
             if event == "Launch":
-                if not pathSet(self.local_samase):
+                if not assert_path(self.local_samase):
                     continue
                 samase.run(self.local_samase, values["x64"])
             if event == "Build From":
-                if not pathSet(self.local_samase):
+                if not assert_path(self.local_samase):
                     continue
                 samase.build(self.local_samase, values["x64"])
             if event == "Unpack from":
-                if not pathSet(self.unpack_samase):
+                if not assert_path(self.unpack_samase):
                     continue
                 # on assumption that the user must select .exe file in the popup
                 assert self.unpack_samase.endswith(".exe"), f"Expected executable to unpack, instead got {self.local_samase}"
