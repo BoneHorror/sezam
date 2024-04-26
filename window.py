@@ -26,7 +26,7 @@ class Window():
                 [gui.Push()],
                 [gui.Push(), gui.Text(SECTION_2, font=("Helvetica", 12, "bold"), tooltip="The exe will be unpacked to /target/ in this directory"), gui.Push()],
                 [gui.Button(SEL_UNPK), gui.Text(UNPK_HINT, key="curExe")],
-                [gui.Push(), gui.Button(DO_UNPK), gui.Push()]
+                [gui.Push(), gui.Button(DO_UNPK, tooltip="WARNING! Overwrites target folder contents"), gui.Push()]
         ]
         self.window = gui.Window(WINDOW_NAME, layout, resizable=True)
 
