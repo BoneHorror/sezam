@@ -6,7 +6,7 @@ import logging
 import samase
 import os
 from utilities import log_print
-from const import LOGFILE, SEL_DIR, DIR_HINT, START, BUILD, STR_64, SEL_UNPK, SEL_POPUP, SEL_ERR, UNPK_HINT, WINDOW_NAME, SECTION_1, SECTION_2
+from const import LOGFILE, SEL_DIR, DIR_HINT, START, BUILD, STR_64, SEL_UNPK, DO_UNPK, SEL_POPUP, SEL_ERR, UNPK_HINT, WINDOW_NAME, SECTION_1, SECTION_2
 
 def assert_path(path: str | None, message: str = "Attempted to perform an operation without a directory selected!") -> bool:
     if path == "" or path is None:
@@ -62,7 +62,7 @@ class Window():
                     continue
                 log_print(f"Trying to pack an executable from {self.local_samase}...")
                 samase.build(self.local_samase, values["x64"])
-            if event == SEL_UNPK:
+            if event == DO_UNPK:
                 if not assert_path(self.unpack_samase):
                     continue
                 if not self.unpack_samase.endswith(".exe"):
