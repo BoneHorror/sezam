@@ -1,12 +1,13 @@
 import os
 import subprocess
+from utilities import log_print
 
 def internal_run(args: list, is64: bool):
     SAMASE = "bin\\samase.exe"
     SAMASE64 = "bin\\samase64.exe"
 
     path = [SAMASE if not is64 else SAMASE64, *args]
-    print(f"Samase string debug: {path}")
+    log_print(f"Samase string debug: {path}")
     subprocess.run(path)
 
 def run(path: str, is64: bool):
