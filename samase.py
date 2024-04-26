@@ -12,7 +12,10 @@ def internal_run(args: list, is64: bool):
 
     path = [SAMASE if not is64 else SAMASE64, *args]
     log_print(f"Samase string debug: {path}")
-    subprocess.run(path)
+    try:
+        subprocess.run(path)
+    except Exception as err:
+        log_print(f"\033[0;31mEncountered an exception when trying to run samase: \033[0;33m{err}\033[0;0m")
 
 def run(path: str, is64: bool):
     internal_run([path], is64)
