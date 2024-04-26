@@ -33,9 +33,10 @@ class Window():
     def run(self):
         while True:
             event, values = self.window.read()
-            log_print(f"Executing event: {event}...")
             if event == gui.WIN_CLOSED:
+                log_print("Exiting sezam, bye!")
                 break
+            log_print(f"\033[0;30mExecuting event: {event}...\033[0;0m")
             if event == SEL_DIR:
                 directory: str | None = gui.popup_get_folder(SEL_POPUP, initial_folder=os.getcwd())
                 log_print(f"Selected directory: {directory}")
