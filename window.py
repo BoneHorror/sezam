@@ -19,6 +19,7 @@ class Window():
         # TODO: supply intelligent defaults
         self.local_samase = ""
         self.unpack_samase = ""
+        self.original_directory = os.getcwd()
 
         layout = [[gui.Push(), gui.Text(SECTION_1, font=("Helvetica", 12, "bold")), gui.Push()],
                 [gui.Button(SEL_DIR), gui.Text(DIR_HINT, key="curPath"), gui.Push(), gui.Checkbox(STR_64, key="x64")],
@@ -69,7 +70,7 @@ class Window():
                 if not self.unpack_samase.endswith(".exe"):
                     log_print(f"Expected executable to unpack, instead got {self.local_samase}!")
                     continue
-                samase.unpack(self.unpack_samase, values["x64"])
+                samase.unpack(self.unpack_samase, values["x64"], first_dir=self.original_directory)
 
 if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', filename=LOGFILE, encoding='utf8', level = logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
