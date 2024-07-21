@@ -1,9 +1,8 @@
 target/
 __pycache__/
 /packed.exe
-/sezam.log
 /sezam.zip
 build/
 dist/
-/aice.log
-/aise.log
+*.log
+/bin/sezam.exe
