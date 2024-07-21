@@ -16,7 +16,6 @@ def assert_path(path: str | None, message: str = "Attempted to perform an operat
 
 class Window():
     def __init__(self):
-        # TODO: supply intelligent defaults
         self.local_samase = ""
         self.unpack_samase = ""
         self.original_directory = os.getcwd()
