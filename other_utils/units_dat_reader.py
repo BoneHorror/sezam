@@ -2,7 +2,12 @@ import json
 import argparse
 from pathlib import Path
 from typing import Dict, Any, List
+import logging
 
+def log_print(text):
+    print(text)
+    logging.info(f"{text}")
+    
 UNITS_DAT_MAPPING = {
     # === Vanilla fields ===
     0: "Flingy",
@@ -110,7 +115,7 @@ def main():
     args = parser.parse_args()
 
     if not args.input_dat.is_file(): #TODO test on Linux
-        print(f"File does not exist: {args.input_dat}")
+        log_print(f"File does not exist: {args.input_dat}")
         
 
     try:
@@ -119,13 +124,17 @@ def main():
         
         translated_output = translate_data(input_data, UNITS_DAT_MAPPING)
         
-        print(json.dumps(translated_output, indent=2, ensure_ascii=False))
+        log_print(json.dumps(translated_output, indent=2, ensure_ascii=False))
 
     except json.JSONDecodeError as json_e:
-        print(json_e)
+        log_print(json_e)
+        raise json_e
     except Exception as e:
-        print(e)
+        log_print(e)
+        raise e
 
 
 if __name__ == "__main__":
+    logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', filename="unitsdat_readable.txt", encoding='utf8', level = logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
+    logging.FileHandler("unitsdat_readable.txt", mode = "w")
     main()
