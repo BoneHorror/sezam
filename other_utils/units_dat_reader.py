@@ -110,7 +110,7 @@ def translate_data(data: List[Dict[str, Any]], mapping: Dict[int, str]) -> List[
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("input_dat", type=Path, help="Path to text file with copied unit DAT values", default="./input.txt")
+    parser.add_argument("--input_dat", type=Path, required=False, help="Path to text file with copied unit DAT values", default="./input.txt")
     
     args = parser.parse_args()
 
@@ -135,6 +135,6 @@ def main():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s', filename="unitsdat_readable.txt", encoding='utf8', level = logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
+    logging.basicConfig(format='%(message)s', filename="unitsdat_readable.txt", encoding='utf8', level = logging.INFO, datefmt='%Y-%m-%d %H:%M:%S')
     logging.FileHandler("unitsdat_readable.txt", mode = "w")
     main()
