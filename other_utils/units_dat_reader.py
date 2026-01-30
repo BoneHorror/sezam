@@ -358,7 +358,10 @@ def translate_data(data: List[Dict[str, Any]], mapping: Dict[int, str]) -> List[
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_dat", type=Path, required=False, help="Path to text file with copied unit DAT values", default="./input.txt")
+    parser.add_argument("--output_log", type=Path, required=False, help="Path to output log file", default=Path(__file__).parent / "unitsdat_readable.txt")
     args = parser.parse_args()
+
+    logging.basicConfig(format='%(message)s', filename=args.output_log, encoding='utf8', level=logging.INFO, filemode='w')
 
     if not args.input_dat.is_file(): #TODO test on Linux
         log_print(f"File does not exist: {args.input_dat}")
@@ -379,6 +382,4 @@ def main():
         raise e
 
 if __name__ == "__main__":
-    logging.basicConfig(format='%(message)s', filename="unitsdat_readable.txt", encoding='utf8', level = logging.INFO)
-    logging.FileHandler("unitsdat_readable.txt", mode = "w")
     main()
